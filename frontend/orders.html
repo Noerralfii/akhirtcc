@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Saya - Toko Sembako Makmur</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Toko Sembako Makmur</h1>
+
+            <nav class="center-nav">
+                <ul>
+                    <li><a href="home.html">🏠 Beranda</a></li>
+                    <li><a href="products.html">📦 Produk</a></li>
+                    <li><a href="cart.html">🛒 Keranjang <span id="cartCount">0</span></a></li>
+                    <li><a href="orders.html" class="active">📋 Pesanan</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-section">
+                <div class="user-profile">
+                    <div class="user-icon">👤</div>
+                    <span class="user-name" id="userName">User</span>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 style="text-align: center; color: #1565c0; margin-bottom: 30px; font-weight: 600;">🛒 Riwayat Pembelian</h2>
+
+        <!-- Order Filters -->
+        <div class="product-filters" style="margin-bottom: 30px; justify-content: center;">
+            <select id="orderDateFilter">
+                <option value="all">📅 Semua Waktu</option>
+                <option value="today">📅 Hari Ini</option>
+                <option value="week">📅 Minggu Ini</option>
+                <option value="month">📅 Bulan Ini</option>
+                <option value="year">📅 Tahun Ini</option>
+            </select>
+        </div>
+
+        <!-- Purchase History List -->
+        <div id="ordersList" class="orders-grid">
+            <!-- Purchase history will be loaded via JavaScript -->
+        </div>
+
+        <!-- Empty Purchase History State -->
+        <div id="emptyOrdersState" style="text-align: center; padding: 60px 20px; display: none;">
+            <div style="font-size: 4em; color: #ccc; margin-bottom: 20px;">🛒</div>
+            <h3 style="color: #666; margin-bottom: 15px;">Belum Ada Riwayat Pembelian</h3>
+            <p style="color: #999; margin-bottom: 25px;">Anda belum pernah melakukan pembelian</p>
+            <a href="products.html" class="btn" style="text-decoration: none;">
+                🛍️ Mulai Belanja
+            </a>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingOrdersState" style="text-align: center; padding: 40px; display: none;">
+            <div style="font-size: 2em; color: #42a5f5; margin-bottom: 15px;">⏳</div>
+            <p style="color: #666;">Memuat riwayat pembelian...</p>
+        </div>
+
+        <!-- Purchase Summary Statistics -->
+        <div class="info-grid" style="margin-top: 40px;">
+            <div class="info-item">
+                <h3>🛒 Total Pembelian</h3>
+                <p id="totalPurchases" style="font-size: 2em; font-weight: bold; color: #1565c0; margin: 10px 0;">0</p>
+                <p style="color: #666;">Jumlah transaksi pembelian</p>
+            </div>
+
+            <div class="info-item">
+                <h3>💰 Total Pengeluaran</h3>
+                <p id="totalSpent" style="font-size: 2em; font-weight: bold; color: #4caf50; margin: 10px 0;">Rp0</p>
+                <p style="color: #666;">Total uang yang telah dikeluarkan</p>
+            </div>
+
+            <div class="info-item">
+                <h3>📦 Total Produk</h3>
+                <p id="totalProducts" style="font-size: 2em; font-weight: bold; color: #1565c0; margin: 10px 0;">0</p>
+                <p style="color: #666;">Jumlah produk yang telah dibeli</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification hidden">
+        <span id="notificationMessage"></span>
+    </div>
+
+    <!-- Purchase Detail Modal -->
+    <div id="orderDetailModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(5px);">
+        <div
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: #1565c0; margin: 0;" id="modalOrderTitle">Detail Pembelian</h3>
+                <button id="closeModal"
+                    style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+            </div>
+
+            <div id="orderDetailContent">
+                <!-- Purchase details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="orders.js"></script>
+</body>
+
+</html>

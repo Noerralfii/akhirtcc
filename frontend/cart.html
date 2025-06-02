@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang - Toko Sembako Makmur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Toko Sembako Makmur</h1>
+            
+            <!-- Navigasi di Tengah -->
+            <nav class="center-nav">
+                <ul>
+                    <li><a href="home.html">🏠 Beranda</a></li>
+                    <li><a href="products.html">📦 Produk</a></li>
+                    <li><a href="cart.html" class="active">🛒 Keranjang <span id="cartCount">0</span></a></li>
+                    <li><a href="orders.html">📋 Pesanan</a></li>
+                </ul>
+            </nav>
+            
+            <!-- User Section di Pojok Kanan -->
+            <div class="user-section">
+                <div class="user-profile">
+                    <div class="user-icon">👤</div>
+                    <span class="user-name" id="userName">User</span>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 style="text-align: center; color: #1565c0; margin-bottom: 30px; font-weight: 600;">🛒 Keranjang Belanja</h2>
+
+        <div class="cart-container">
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items akan dimuat melalui JavaScript -->
+            </div>
+
+            <div class="cart-summary">
+                <h3>💰 Ringkasan Belanja</h3>
+                
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">Rp 0</span>
+                </div>
+                
+                <div class="summary-item" style="border-top: 2px solid #e3f2fd; padding-top: 15px; margin-top: 15px; font-weight: 600; font-size: 1.2em;">
+                    <span>Total:</span>
+                    <span id="totalBelanja" style="color: #1565c0;">Rp 0</span>
+                </div>
+                
+                <button class="btn" id="checkoutBtn" style="margin-top: 20px;">
+                    🚀 Checkout Sekarang
+                </button>
+                
+                <button class="btn" id="clearCartBtn" style="background: linear-gradient(135deg, #ef5350 0%, #d32f2f 100%); margin-top: 10px; width: 100%; padding: 12px;">
+                    🗑️ Kosongkan Keranjang
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty Cart State -->
+        <div id="emptyCartState" style="text-align: center; padding: 60px 20px; display: none;">
+            <div style="font-size: 4em; color: #ccc; margin-bottom: 20px;">🛒</div>
+            <h3 style="color: #666; margin-bottom: 15px;">Keranjang Belanja Kosong</h3>
+            <p style="color: #999; margin-bottom: 25px;">Belum ada produk dalam keranjang Anda</p>
+            <a href="products.html" class="btn" style="text-decoration: none;">
+                🛍️ Mulai Belanja
+            </a>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingCartState" style="text-align: center; padding: 40px; display: none;">
+            <div style="font-size: 2em; color: #42a5f5; margin-bottom: 15px;">⏳</div>
+            <p style="color: #666;">Memuat keranjang belanja...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification hidden">
+        <span id="notificationMessage"></span>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(5px);">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 500px; width: 90%;">
+            <h3 style="color: #1565c0; margin-bottom: 20px; text-align: center;">🚀 Konfirmasi Checkout</h3>
+            <p style="color: #666; margin-bottom: 25px; text-align: center;">Apakah Anda yakin ingin melanjutkan ke pembayaran?</p>
+            
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button id="confirmCheckout" class="btn" style="flex: 1;">
+                    ✅ Ya, Lanjutkan
+                </button>
+                <button id="cancelCheckout" class="btn" style="flex: 1; background: linear-gradient(135deg, #666 0%, #555 100%);">
+                    ❌ Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk - Toko Sembako Makmur</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles for better image centering */
+        .product-detail-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .product-detail-image img {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .product-detail-image {
+                padding-right: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Toko Sembako Makmur</h1>
+            <nav class="center-nav">
+                <ul>
+                    <li><a href="home.html">Beranda</a></li>
+                    <li><a href="products.html">Produk</a></li>
+                    <li><a href="cart.html">Keranjang <span id="cartCount">0</span></a></li>
+                    <li><a href="login.html" class="logout-btn" id="logoutBtn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="product-detail" id="productDetail">
+            <div class="product-detail-image">
+                <img src="path-to-your-image.jpg" alt="Beras Pandan Wangi 5kg" id="productImage">
+            </div>
+            <div class="product-detail-info">
+                <h2 id="productName">Beras Pandan Wangi 5kg</h2>
+                <p id="productDescription">Beras premium dengan aroma pandan wangi, kemasan 5kg.</p>
+                <div class="product-detail-price" id="productPrice">Rp65,000</div>
+                
+                <div class="quantity-selector">
+                    <button id="decreaseQty">-</button>
+                    <input type="number" id="productQty" value="1" min="1">
+                    <button id="increaseQty">+</button>
+                </div>
+                
+                <button class="btn" id="addToCartBtn">Tambah ke Keranjang</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="notification hidden" id="notification">
+        Produk telah ditambahkan ke keranjang!
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+</body>
+</html>
