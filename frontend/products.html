@@ -1,81 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produk - Toko Sembako Makmur</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produk - Toko Sembako Makmur</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Load script dengan urutan yang benar -->
+  <script src="config.js" defer></script>
+  <script src="main.js" defer></script>
+  <script src="products.js" defer></script>
+  <script src="auth.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>Toko Sembako Makmur</h1>
-            
-            <!-- Navigasi di Tengah -->
-            <nav class="center-nav">
-                <ul>
-                    <li><a href="home.html">🏠 Beranda</a></li>
-                    <li><a href="products.html" class="active">📦 Produk</a></li>
-                    <li><a href="cart.html">🛒 Keranjang <span id="cartCount">0</span></a></li>
-                    <li><a href="orders.html">📋 Pesanan</a></li>
-                </ul>
-            </nav>
-            
-            <!-- User Section di Pojok Kanan -->
-            <div class="user-section">
-                <div class="user-profile">
-                    <div class="user-icon">👤</div>
-                    <span class="user-name" id="userName">User</span>
-                </div>
-                <button class="logout-btn" id="logoutBtn">Logout</button>
-            </div>
-        </div>
-    </header>
+  <header>
+    <div class="header-container">
+      <h1>Toko Sembako Makmur</h1>
 
-    <main class="container">
-        <h2 style="text-align: center; color: #1565c0; margin-bottom: 30px; font-weight: 600;">Daftar Produk</h2>
-        
-        <div class="product-filters">
-            <input type="text" id="searchProduct" placeholder="🔍 Cari produk...">
-            <select id="categoryFilter">
-                <option value="all">📋 Semua Kategori</option>
-                <option value="beras">🌾 Beras</option>
-                <option value="minyak">🫒 Minyak</option>
-                <option value="gula">🍯 Gula</option>
-                <option value="sembako">🛒 Sembako Lainnya</option>
-            </select>
-        </div>
+      <!-- Navigasi di Tengah -->
+      <nav class="center-nav">
+        <ul>
+          <li><a href="home.html">🏠 Beranda</a></li>
+          <li><a href="products.html" class="active">📦 Produk</a></li>
+          <li><a href="cart.html">🛒 Keranjang <span id="cartCount">0</span></a></li>
+          <li><a href="orders.html">📋 Pesanan</a></li>
+        </ul>
+      </nav>
 
-        <div class="product-grid" id="productList">
-            <!-- Produk akan dimuat melalui JavaScript -->
+      <!-- User Section di Pojok Kanan -->
+      <div class="user-section">
+        <div class="user-profile">
+          <div class="user-icon">👤</div>
+          <span class="user-name" id="userName">User</span>
         </div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
 
-        <!-- Loading State -->
-        <div id="loadingState" style="text-align: center; padding: 40px; display: none;">
-            <div style="font-size: 2em; color: #42a5f5; margin-bottom: 15px;">⏳</div>
-            <p style="color: #666;">Memuat produk...</p>
-        </div>
+  <main class="container">
+    <h2 style="text-align: center; color: #1565c0; margin-bottom: 30px; font-weight: 600;">
+      Daftar Produk
+    </h2>
 
-        <!-- Empty State -->
-        <div id="emptyState" style="text-align: center; padding: 40px; display: none;">
-            <div style="font-size: 3em; color: #ccc; margin-bottom: 15px;">📦</div>
-            <h3 style="color: #666; margin-bottom: 10px;">Tidak ada produk ditemukan</h3>
-            <p style="color: #999;">Coba ubah filter pencarian atau kategori</p>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Notification -->
-    <div class="notification hidden" id="notification">
-        <span id="notificationText"></span>
+    <div class="product-filters">
+      <input type="text" id="searchProduct" placeholder="🔍 Cari produk..." />
+      <select id="categoryFilter">
+        <option value="all">📋 Semua Kategori</option>
+        <option value="beras">🌾 Beras</option>
+        <option value="minyak">🫒 Minyak</option>
+        <option value="gula">🍯 Gula</option>
+        <option value="sembako">🛒 Sembako Lainnya</option>
+      </select>
     </div>
 
-    <script src="auth.js"></script>
-    <script src="products.js"></script>
+    <div class="product-grid" id="productList">
+      <!-- Produk akan dimuat melalui JavaScript -->
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" style="text-align: center; padding: 40px; display: none;">
+      <div style="font-size: 2em; color: #42a5f5; margin-bottom: 15px;">⏳</div>
+      <p style="color: #666;">Memuat produk...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" style="text-align: center; padding: 40px; display: none;">
+      <div style="font-size: 3em; color: #ccc; margin-bottom: 15px;">📦</div>
+      <h3 style="color: #666; margin-bottom: 10px;">Tidak ada produk ditemukan</h3>
+      <p style="color: #999;">Coba ubah filter pencarian atau kategori</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Notification -->
+  <div class="notification hidden" id="notification">
+    <span id="notificationText"></span>
+  </div>
 </body>
 </html>

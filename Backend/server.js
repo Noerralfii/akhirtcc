@@ -19,6 +19,8 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // DB Connection
+console.log('MONGO_URI:', process.env.MONGO_URI);
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
