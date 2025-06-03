@@ -1,11 +1,11 @@
-const { Cart } = require('..');
+import { User, Cart } from '../models/index.js';
 
-exports.getCart = async (req, res) => {
+export const getCart = async (req, res) => {
   const items = await Cart.findAll({ where: { userId: req.user.id } });
   res.json({ userId: req.user.id, items });
 };
 
-exports.addToCart = async (req, res) => {
+export const addToCart = async (req, res) => {
   const { productId, quantity } = req.body;
   const [item, created] = await Cart.findOrCreate({
     where: { userId: req.user.id, productId },
@@ -18,7 +18,7 @@ exports.addToCart = async (req, res) => {
   res.json(item);
 };
 
-exports.removeFromCart = async (req, res) => {
+export const removeFromCart = async (req, res) => {
   const { productId } = req.body;
   await Cart.destroy({ where: { userId: req.user.id, productId } });
   res.json({ message: 'Removed from cart' });

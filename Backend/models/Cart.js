@@ -1,4 +1,4 @@
-odule.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   return sequelize.define('Cart', {
     userId: { type: DataTypes.INTEGER, allowNull: false },
     productId: { type: DataTypes.INTEGER },

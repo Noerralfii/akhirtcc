@@ -2,20 +2,22 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import db from "./models/index.js";
 
-// Import routes dan models
+// Import routes
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// CORS Config
 const allowedOrigins = [
   "http://localhost:3000",
+  // Tambah domain frontend production jika perlu
 ];
 
 app.use(cors({
@@ -34,17 +36,19 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 
-// Health check
+// Health check endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
-// Start server and sync DB
-db.sequelize.sync({ alter: true }).then(() => {
-  console.log("Database connected and synced");
-  app.listen(PORT, () =>
-    console.log(`Server berjalan di http://localhost:${PORT}`)
-  );
-}).catch(err => {
-  console.error("Database connection failed:", err);
-});
+// Sync database & start server
+db.sequelize.sync({ alter: true })
+  .then(() => {
+    console.log("✅ Database connected and synced");
+    app.listen(PORT, () => {
+      console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Database connection failed:", err);
+  });

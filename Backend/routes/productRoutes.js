@@ -1,13 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { getAllProducts, getProductById } from '../controllers/productController.js';
+
 const router = express.Router();
 
-// Controller sudah berbasis Sequelize
-const { getAllProducts, getProductById } = require('../controllers/productController');
-
-// Dapatkan semua produk
 router.get('/', getAllProducts);
-
-// Dapatkan produk berdasarkan ID
 router.get('/:id', getProductById);
 
-module.exports = router;
+export default router;

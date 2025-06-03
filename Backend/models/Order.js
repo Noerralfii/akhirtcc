@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   return sequelize.define('Order', {
     userId: { type: DataTypes.INTEGER, allowNull: false },
     items: { type: DataTypes.JSON },
