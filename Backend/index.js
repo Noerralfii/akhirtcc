@@ -12,7 +12,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // CORS Config
 const allowedOrigins = [
@@ -45,9 +45,10 @@ app.get("/health", (req, res) => {
 db.sequelize.sync({ alter: true })
   .then(() => {
     console.log("✅ Database connected and synced");
-    app.listen(PORT, () => {
-      console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
-    });
+    app.listen(process.env.PORT, () => {
+  console.log(`🚀 Server berjalan di port ${process.env.PORT}`);
+});
+
   })
   .catch((err) => {
     console.error("❌ Database connection failed:", err);
