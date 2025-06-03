@@ -1,7 +1,9 @@
-substitutions:
-  _REGION: asia-southeast2
-  _SERVICE_NAME: fe-sembako
-  _IMAGE: gcr.io/$PROJECT_ID/$_SERVICE_NAME
+"substitutions": {
+  "_SERVICE_NAME": "sembako-frontend",
+  "_REGION": "asia-southeast2",
+  "_IMAGE": "gcr.io/$PROJECT_ID/sembako-frontend"
+}
+
 
 steps:
   # 1. Install dependencies
