@@ -4,7 +4,7 @@
   "description": "Backend untuk aplikasi Toko Sembako Makmur",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+
      "start": "node index.js",
     "dev": "nodemon server.js"
   },
