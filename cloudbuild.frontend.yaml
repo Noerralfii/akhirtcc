@@ -1,6 +1,6 @@
 substitutions:
   _REGION: asia-southeast2
-  _SERVICE_NAME: sembako-frontend
+  _SERVICE_NAME: fe-sembako
   _IMAGE: gcr.io/$PROJECT_ID/$_SERVICE_NAME
 
 steps:
