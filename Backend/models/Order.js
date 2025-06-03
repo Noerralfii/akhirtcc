@@ -1,8 +1,17 @@
-export default (sequelize, DataTypes) => {
-  return sequelize.define('Order', {
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    items: { type: DataTypes.JSON },
-    total: DataTypes.FLOAT,
-    status: { type: DataTypes.STRING, defaultValue: 'pending' },
-  });
-};
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
+
+const Order = sequelize.define("Order", {
+  items: {
+    type: DataTypes.JSON,
+  },
+  total: {
+    type: DataTypes.FLOAT,
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'pending',
+  }
+});
+
+export default Order;

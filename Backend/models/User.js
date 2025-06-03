@@ -1,30 +1,17 @@
-// models/User.js
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 import bcrypt from "bcryptjs";
 
 const User = sequelize.define("User", {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  name: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false, unique: true },
+  password: { type: DataTypes.STRING, allowNull: false },
 });
 
-// Hash password sebelum create user
 User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, 10);
 });
 
-// Method untuk compare password saat login
 User.prototype.comparePassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
