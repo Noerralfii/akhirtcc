@@ -1,23 +1,26 @@
 # Gunakan image Node.js resmi
 FROM node:18
 
+# Atur timezone agar sesuai dengan Asia/Jakarta (opsional, tapi berguna untuk log yang sesuai)
+ENV TZ=Asia/Jakarta
+
 # Buat working directory
 WORKDIR /app
 
-# Salin file konfigurasi
+# Salin file konfigurasi (gunakan wildcard untuk menangani package.json & package-lock.json jika ada)
 COPY package*.json ./
 
-# Install dependensi
+# Install dependensi (gunakan --legacy-peer-deps jika error dependensi)
 RUN npm install
 
 # Salin semua source code
 COPY . .
 
-# Set environment variable (Cloud Run akan override dari Secret Manager / dashboard)
+# Set environment variable default (Cloud Run bisa override)
 ENV PORT=8080
 
-# Buka port yang digunakan server
+# Buka port
 EXPOSE 8080
 
-# Perintah untuk menjalankan server
+# Jalankan aplikasi
 CMD ["npm", "start"]
