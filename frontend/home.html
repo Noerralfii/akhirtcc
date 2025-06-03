@@ -1,63 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Toko Sembako Makmur</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <header>
     <div class="container header-container">
-        <h1>Toko Sembako Makmur</h1>
-        
-        <!-- Navigasi di tengah -->
-        <nav class="center-nav">
-            <ul>
-                <li><a href="home.html" class="active">Beranda</a></li>
-                <li><a href="products.html">Produk</a></li>
-                <li><a href="cart.html">Keranjang <span id="cartCount">0</span></a></li>
-                <li><a href="orders.html">📋 Pesanan</a></li>
-            </ul>
-        </nav>
-        
-        <!-- Profile user dan logout di pojok kanan -->
-        <div class="user-section">
-            <div class="user-profile" id="userProfile">
-                <span class="user-icon">👤</span>
-                <span class="user-name" id="userName">Guest</span>
-            </div>
-            <button class="logout-btn" id="logoutBtn">Logout</button>
+      <h1>Toko Sembako Makmur</h1>
+      <nav class="center-nav">
+        <ul>
+          <li><a href="home.html" class="active">Beranda</a></li>
+          <li><a href="products.html">Produk</a></li>
+          <li><a href="cart.html">Keranjang <span id="cartCount">0</span></a></li>
+          <li><a href="orders.html">📋 Pesanan</a></li>
+        </ul>
+      </nav>
+      <div class="user-section">
+        <div class="user-profile" id="userProfile">
+          <span class="user-icon">👤</span>
+          <span class="user-name" id="userName">Guest</span>
         </div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
     </div>
-</header>
+  </header>
 
   <main class="container">
     <section class="hero">
       <h2>Selamat Datang di Toko Sembako Makmur</h2>
-      <p id="welcomeMessage"> Toko kami menyediakan berbagai kebutuhan pokok dengan harga terjangkau dan kualitas terbaik</p>
+      <p id="welcomeMessage">Memuat informasi pengguna...</p>
     </section>
 
     <section class="about">
       <h2>Tentang Kami</h2>
-      <p>Toko Sembako Makmur telah melayani masyarakat sejak tahun 2010. Kami berkomitmen untuk menyediakan
-        produk-produk sembako dengan kualitas terbaik dan harga yang kompetitif.</p>
+      <p>Toko Sembako Makmur telah melayani masyarakat sejak tahun 2010. Kami berkomitmen menyediakan produk sembako terbaik dengan harga kompetitif.</p>
       <div class="info-grid">
-        <div class="info-item">
-          <h3>📍 Lokasi</h3>
-          <p>Jl. Raya Sembako No. 123, Kota Makmur</p>
-        </div>
-        <div class="info-item">
-          <h3>🕐 Jam Buka</h3>
-          <p>Senin - Minggu: 08.00 - 20.00 WIB</p>
-        </div>
-        <div class="info-item">
-          <h3>📞 Kontak</h3>
-          <p>Telp: 081234567890</p>
-          <p>Email: info@tokomakmur.com</p>
-        </div>
+        <div class="info-item"><h3>📍 Lokasi</h3><p>Jl. Raya Sembako No. 123, Kota Makmur</p></div>
+        <div class="info-item"><h3>🕐 Jam Buka</h3><p>Senin - Minggu: 08.00 - 20.00 WIB</p></div>
+        <div class="info-item"><h3>📞 Kontak</h3><p>Telp: 081234567890<br>Email: info@tokomakmur.com</p></div>
       </div>
     </section>
   </main>
@@ -68,44 +51,50 @@
     </div>
   </footer>
 
-  <script src="auth.js"></script>
-  <script>
-    // Script untuk mengatur tampilan user profile dan welcome message
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        const userNameElement = document.getElementById('userName');
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        const logoutBtn = document.getElementById('logoutBtn');
-        
-        if (currentUser && currentUser.name) {
-            // Tampilkan nama user
-            userNameElement.textContent = currentUser.name;
-            
-            // Personalisasi welcome message
-            welcomeMessage.textContent = `Selamat datang kembali, ${currentUser.name}! Menyediakan berbagai kebutuhan pokok dengan harga terjangkau dan kualitas terbaik`;
-            
-            // Setup logout button
-            logoutBtn.addEventListener('click', function() {
-                if (confirm('Apakah Anda yakin ingin logout?')) {
-                    localStorage.removeItem('currentUser');
-                    window.location.href = 'login.html';
-                }
-            });
-        } else {
-            // Jika belum login, redirect ke halaman login
-            userNameElement.textContent = 'Guest';
-            logoutBtn.textContent = 'Login';
-            logoutBtn.addEventListener('click', function() {
-                window.location.href = 'login.html';
-            });
-        }
-        
-        // Update cart count jika ada function updateCartCount
-        if (typeof updateCartCount === 'function') {
-            updateCartCount();
-        }
+  <!-- Script auth + config -->
+  <script src="config.js"></script>
+  <script type="module">
+    import { API_URL } from './config.js';
+
+    const userNameElement = document.getElementById('userName');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const token = localStorage.getItem('token');
+
+    // Jika tidak ada token, redirect ke login
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+
+    async function fetchProfile() {
+      try {
+        const res = await fetch(`${API_URL}/auth/profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) throw new Error('Gagal mengambil profil');
+
+        const user = await res.json();
+        userNameElement.textContent = user.name || 'Pengguna';
+        welcomeMessage.textContent = `Selamat datang kembali, ${user.name}! Menyediakan berbagai kebutuhan pokok dengan harga terjangkau dan kualitas terbaik.`;
+
+      } catch (err) {
+        alert('Sesi habis atau token tidak valid, silakan login ulang.');
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+      }
+    }
+
+    logoutBtn.addEventListener('click', () => {
+      if (confirm('Yakin ingin logout?')) {
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+      }
     });
+
+    fetchProfile();
   </script>
 </body>
-
 </html>

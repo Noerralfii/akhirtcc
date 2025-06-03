@@ -1,82 +1,142 @@
+<!-- product-detail.html FINAL -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Produk - Toko Sembako Makmur</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Additional styles for better image centering */
-        .product-detail-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .product-detail-image img {
-            max-width: 100%;
-            height: auto;
-            margin: 0 auto;
-        }
-        
-        @media (min-width: 768px) {
-            .product-detail-image {
-                padding-right: 40px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Produk - Toko Sembako Makmur</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .product-detail-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .product-detail-image img {
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      .product-detail-image {
+        padding-right: 40px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>Toko Sembako Makmur</h1>
-            <nav class="center-nav">
-                <ul>
-                    <li><a href="home.html">Beranda</a></li>
-                    <li><a href="products.html">Produk</a></li>
-                    <li><a href="cart.html">Keranjang <span id="cartCount">0</span></a></li>
-                    <li><a href="login.html" class="logout-btn" id="logoutBtn">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="product-detail" id="productDetail">
-            <div class="product-detail-image">
-                <img src="path-to-your-image.jpg" alt="Beras Pandan Wangi 5kg" id="productImage">
-            </div>
-            <div class="product-detail-info">
-                <h2 id="productName">Beras Pandan Wangi 5kg</h2>
-                <p id="productDescription">Beras premium dengan aroma pandan wangi, kemasan 5kg.</p>
-                <div class="product-detail-price" id="productPrice">Rp65,000</div>
-                
-                <div class="quantity-selector">
-                    <button id="decreaseQty">-</button>
-                    <input type="number" id="productQty" value="1" min="1">
-                    <button id="increaseQty">+</button>
-                </div>
-                
-                <button class="btn" id="addToCartBtn">Tambah ke Keranjang</button>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <div class="notification hidden" id="notification">
-        Produk telah ditambahkan ke keranjang!
+  <header>
+    <div class="header-container">
+      <h1>Toko Sembako Makmur</h1>
+      <nav class="center-nav">
+        <ul>
+          <li><a href="home.html">Beranda</a></li>
+          <li><a href="products.html">Produk</a></li>
+          <li><a href="cart.html">Keranjang <span id="cartCount">0</span></a></li>
+          <li><a href="#" class="logout-btn" id="logoutBtn">Logout</a></li>
+        </ul>
+      </nav>
     </div>
-<script src="config.js"></script>
-<script type="module" src="main.js"></script>
+  </header>
 
+  <main class="container">
+    <div class="product-detail" id="productDetail">
+      <!-- Konten produk akan dimuat dengan JS -->
+    </div>
+  </main>
 
-    <script src="auth.js"></script>
-    <script src="products.js"></script>
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 Toko Sembako Makmur. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Notifikasi -->
+  <div class="notification hidden" id="notification"></div>
+
+  <script type="module">
+    import { API_URL } from './config.js';
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    const detailContainer = document.getElementById('productDetail');
+    const notif = document.getElementById('notification');
+
+    async function fetchProductDetail() {
+      try {
+        const res = await fetch(`${API_URL}/products/${productId}`);
+        const product = await res.json();
+
+        detailContainer.innerHTML = `
+          <div class="product-detail-image">
+            <img src="${product.image}" alt="${product.name}" />
+          </div>
+          <div class="product-detail-info">
+            <h2>${product.name}</h2>
+            <p>${product.description}</p>
+            <div class="product-detail-price">Rp ${product.price.toLocaleString()}</div>
+
+            <div class="quantity-selector">
+              <button id="decreaseQty">-</button>
+              <input type="number" id="productQty" value="1" min="1">
+              <button id="increaseQty">+</button>
+            </div>
+
+            <button class="btn" id="addToCartBtn">Tambah ke Keranjang</button>
+          </div>
+        `;
+
+        // Event listener quantity
+        document.getElementById('decreaseQty').onclick = () => changeQty(-1);
+        document.getElementById('increaseQty').onclick = () => changeQty(1);
+        document.getElementById('addToCartBtn').onclick = () => addToCart(product.id);
+
+      } catch (err) {
+        detailContainer.innerHTML = '<p>Produk tidak ditemukan.</p>';
+      }
+    }
+
+    function changeQty(change) {
+      const qtyInput = document.getElementById('productQty');
+      let qty = parseInt(qtyInput.value) + change;
+      if (qty < 1) qty = 1;
+      qtyInput.value = qty;
+    }
+
+    async function addToCart(productId) {
+      const qty = parseInt(document.getElementById('productQty').value);
+      try {
+        const res = await fetch(`${API_URL}/cart/add`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ productId, quantity: qty })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        notif.textContent = 'Produk ditambahkan ke keranjang!';
+        notif.classList.remove('hidden');
+        setTimeout(() => notif.classList.add('hidden'), 3000);
+
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    fetchProductDetail();
+  </script>
 </body>
 </html>

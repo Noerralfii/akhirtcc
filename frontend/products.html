@@ -6,18 +6,15 @@
   <title>Produk - Toko Sembako Makmur</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Load script dengan urutan yang benar -->
+  <!-- Script urut dan defer untuk efisiensi -->
   <script src="config.js" defer></script>
-  <script src="main.js" defer></script>
-  <script src="products.js" defer></script>
   <script src="auth.js" defer></script>
+  <script src="products.js" defer></script>
 </head>
 <body>
   <header>
     <div class="header-container">
       <h1>Toko Sembako Makmur</h1>
-
-      <!-- Navigasi di Tengah -->
       <nav class="center-nav">
         <ul>
           <li><a href="home.html">🏠 Beranda</a></li>
@@ -26,8 +23,6 @@
           <li><a href="orders.html">📋 Pesanan</a></li>
         </ul>
       </nav>
-
-      <!-- User Section di Pojok Kanan -->
       <div class="user-section">
         <div class="user-profile">
           <div class="user-icon">👤</div>
@@ -55,16 +50,14 @@
     </div>
 
     <div class="product-grid" id="productList">
-      <!-- Produk akan dimuat melalui JavaScript -->
+      <!-- Produk dimuat lewat JS -->
     </div>
 
-    <!-- Loading State -->
     <div id="loadingState" style="text-align: center; padding: 40px; display: none;">
       <div style="font-size: 2em; color: #42a5f5; margin-bottom: 15px;">⏳</div>
       <p style="color: #666;">Memuat produk...</p>
     </div>
 
-    <!-- Empty State -->
     <div id="emptyState" style="text-align: center; padding: 40px; display: none;">
       <div style="font-size: 3em; color: #ccc; margin-bottom: 15px;">📦</div>
       <h3 style="color: #666; margin-bottom: 10px;">Tidak ada produk ditemukan</h3>
