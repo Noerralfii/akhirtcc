@@ -12,7 +12,7 @@ app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 
 // Start server and sync DB
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log('Database connected and synced');
