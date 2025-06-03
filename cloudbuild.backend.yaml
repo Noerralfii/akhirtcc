@@ -1,3 +1,6 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
 steps:
   - name: node:18
     dir: Backend
@@ -13,7 +16,6 @@ steps:
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    # Ambil secrets dari Secret Manager dan deploy
     args:
       [
         'run',
@@ -31,9 +33,9 @@ steps:
       ]
 
 substitutions:
-  _DB_PASSWORD: ''  # nanti ini diisi otomatis saat build dengan secret
+  _DB_PASSWORD: ''   # akan otomatis diisi dari Secret Manager
   _JWT_SECRET: ''
-  
+
 availableSecrets:
   secretManager:
     - versionName: projects/PROJECT_ID/secrets/db_password/versions/latest
