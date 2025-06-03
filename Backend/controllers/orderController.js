@@ -1,21 +1,28 @@
-const Order = require('../models/Order');
-const Cart = require('../models/Cart');
+const { Order, Cart, Product } = require('..');
 
 exports.createOrder = async (req, res) => {
-  const cart = await Cart.findOne({ userId: req.user._id });
-  if (!cart || cart.items.length === 0) return res.status(400).json({ message: 'Cart is empty' });
+  const items = await Cart.findAll({ where: { userId: req.user.id } });
+  if (!items.length) return res.status(400).json({ message: 'Cart is empty' });
 
-  const total = cart.items.reduce((sum, i) => sum + i.quantity * i.productId.price, 0);
-  const order = new Order({ userId: req.user._id, items: cart.items, total });
-  await order.save();
+  let total = 0;
+  const productMap = {};
+  for (const item of items) {
+    const product = await Product.findByPk(item.productId);
+    productMap[item.productId] = product;
+    total += product.price * item.quantity;
+  }
 
-  cart.items = [];
-  await cart.save();
+  const order = await Order.create({
+    userId: req.user.id,
+    items: items.map(i => ({ productId: i.productId, quantity: i.quantity })),
+    total,
+  });
 
+  await Cart.destroy({ where: { userId: req.user.id } });
   res.status(201).json(order);
 };
 
 exports.getOrders = async (req, res) => {
-  const orders = await Order.find({ userId: req.user._id });
+  const orders = await Order.findAll({ where: { userId: req.user.id } });
   res.json(orders);
 };

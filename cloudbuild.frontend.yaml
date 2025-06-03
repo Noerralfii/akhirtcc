@@ -1,0 +1,43 @@
+substitutions:
+  _REGION: asia-southeast2
+  _SERVICE_NAME: sembako-frontend
+  _IMAGE: gcr.io/$PROJECT_ID/$_SERVICE_NAME
+
+steps:
+  # 1. Install dependencies
+  - name: node:18
+    entrypoint: npm
+    args: ['install']
+
+  # 2. Build frontend
+  - name: node:18
+    entrypoint: npm
+    args: ['run', 'build']
+
+  # 3. Build Docker image for frontend
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$_IMAGE', '.']
+
+  # 4. Push image to GCR
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_IMAGE']
+
+  # 5. Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        '$_SERVICE_NAME',
+        '--image',
+        '$_IMAGE',
+        '--region',
+        '$_REGION',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated'
+      ]
+
+images:
+  - $_IMAGE

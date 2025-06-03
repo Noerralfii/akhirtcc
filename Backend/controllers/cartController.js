@@ -1,29 +1,25 @@
-const Cart = require('../models/Cart');
+const { Cart } = require('..');
 
 exports.getCart = async (req, res) => {
-  const cart = await Cart.findOne({ userId: req.user._id }).populate('items.productId');
-  res.json(cart || { userId: req.user._id, items: [] });
+  const items = await Cart.findAll({ where: { userId: req.user.id } });
+  res.json({ userId: req.user.id, items });
 };
 
 exports.addToCart = async (req, res) => {
   const { productId, quantity } = req.body;
-  let cart = await Cart.findOne({ userId: req.user._id });
-  if (!cart) cart = new Cart({ userId: req.user._id, items: [] });
-
-  const index = cart.items.findIndex(i => i.productId.equals(productId));
-  if (index > -1) cart.items[index].quantity += quantity;
-  else cart.items.push({ productId, quantity });
-
-  await cart.save();
-  res.json(cart);
+  const [item, created] = await Cart.findOrCreate({
+    where: { userId: req.user.id, productId },
+    defaults: { quantity },
+  });
+  if (!created) {
+    item.quantity += quantity;
+    await item.save();
+  }
+  res.json(item);
 };
 
 exports.removeFromCart = async (req, res) => {
   const { productId } = req.body;
-  let cart = await Cart.findOne({ userId: req.user._id });
-  if (cart) {
-    cart.items = cart.items.filter(i => !i.productId.equals(productId));
-    await cart.save();
-  }
-  res.json(cart);
+  await Cart.destroy({ where: { userId: req.user.id, productId } });
+  res.json({ message: 'Removed from cart' });
 };

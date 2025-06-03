@@ -1,0 +1,40 @@
+substitutions:
+  _REGION: asia-southeast2
+  _SERVICE_NAME: sembako-backend
+  _IMAGE: gcr.io/$PROJECT_ID/$_SERVICE_NAME
+
+steps:
+  # 1. Install dependencies
+  - name: node:18
+    entrypoint: npm
+    args: ['install']
+
+  # 2. Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$_IMAGE', '.']
+
+  # 3. Push image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_IMAGE']
+
+  # 4. Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        '$_SERVICE_NAME',
+        '--image',
+        '$_IMAGE',
+        '--region',
+        '$_REGION',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated',
+        '--set-env-vars',
+        'DB_NAME=db_sembako,DB_USER=root,DB_PASSWORD=,DB_HOST=YOUR_SQL_HOST,DB_DIALECT=mysql,JWT_SECRET=your_jwt_secret_key'
+      ]
+
+images:
+  - $_IMAGE
