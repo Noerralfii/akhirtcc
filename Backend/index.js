@@ -8,7 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
-import db from "./models/index.js"; // Pastikan path dan export sesuai struktur Anda
+
 
 dotenv.config();
 const app = express();
@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://plantapp-dot-prak-tcc-1-450606.uc.r.appspot.com"
 ];
 
 app.use(cors({
