@@ -1,41 +1,38 @@
-substitutions:
-  _REGION: asia-southeast2
-  _SERVICE_NAME: sembako-frontend
-  _IMAGE: gcr.io/${PROJECT_ID}/sembako-frontend
-
 steps:
-  - name: node:18
-    entrypoint: npm
-    args: ['install']
-
-  - name: node:18
-    entrypoint: npm
-    args: ['run', 'build']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$_IMAGE', '.']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_IMAGE']
-
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
+  # Step 1: Install dependencies
+  - name: "gcr.io/cloud-builders/npm"
+    entrypoint: bash
     args:
-      [
-        'run',
-        'deploy',
-        '$_SERVICE_NAME',
-        '--image',
-        '$_IMAGE',
-        '--region',
-        '$_REGION',
-        '--platform',
-        'managed',
-        '--allow-unauthenticated'
-      ]
+      - -c
+      - |
+        if [ ! -d "node_modules" ]; then
+          echo "Installing dependencies..."
+          npm ci
+        else
+          echo "Skipping npm install, node_modules exists."
+        fi
+    dir: "frontend"
+    volumes:
+      - name: "npm-cache"
+        path: /root/.npm
 
-images:
-  - $_IMAGE
+  # Step 2: Build frontend dengan injeksi VITE_API_URL
+  - name: "gcr.io/cloud-builders/npm"
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        npm run build
+    dir: "frontend"
+    volumes:
+      - name: "npm-cache"
+        path: /root/.npm
+
+  # Step 3: Deploy ke App Engine
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args: ["app", "deploy", "--quiet"]
+    dir: "frontend"
 
 options:
   logging: CLOUD_LOGGING_ONLY
