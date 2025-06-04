@@ -1,4 +1,4 @@
-import { API_URL } from 'config.js';
+import { API_URL } from './config.js';
 
 // Redirect jika sudah login
 const token = localStorage.getItem('token');
