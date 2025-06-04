@@ -1,5 +1,5 @@
 console.log("main.js loaded"); // atau sesuaikan dengan Cloud Run kamu
-import { apiBase } from "./config.js";
+import { API_URL } from "./config.js";
 
 // Debug: pastikan apiBase tersedia
 if (typeof apiBase === 'undefined') {
@@ -14,7 +14,7 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
 
   try {
-    const res = await fetch(`${apiBase}/auth/login`, {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -39,8 +39,8 @@ let selectedProduct = null;
 
 async function fetchProducts() {
   try {
-    console.log('🔄 Fetching products from:', `${apiBase}/products`);
-    const res = await fetch(`${apiBase}/products`);
+    console.log('🔄 Fetching products from:', `${API_URL}/products`);
+    const res = await fetch(`${API_URL}/products`);
     if (!res.ok) throw new Error('Gagal fetch produk');
     const products = await res.json();
 
