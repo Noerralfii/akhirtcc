@@ -1,5 +1,5 @@
-import { API_URL } from './config.js';
-import { updateCartCount } from './auth.js';
+import { API_URL } from '../config.js';
+import { updateCartCount } from '../auth.js';
 
 let allProducts = [];
 

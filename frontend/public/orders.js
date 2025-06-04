@@ -1,5 +1,5 @@
 // orders.js FINAL VERSION (Fetch data from backend)
-import { API_URL } from './config.js';
+import { API_URL } from '../config.js';
 
 const token = localStorage.getItem('token');
 
