@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 // CORS Config
 const allowedOrigins = [
-  "http://localhost:3000",
+  "https://sembako-frontend-981814770172.asia-southeast2.run.app/",
   // Tambah domain frontend production jika perlu
 ];
 
