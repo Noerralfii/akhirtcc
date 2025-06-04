@@ -1,5 +1,5 @@
 console.log("main.js loaded");
-const apiBase = "http://localhost:3000/api"; // atau sesuaikan dengan Cloud Run kamu
+const apiBase = "https://be-sembako-981814770172.us-central1.run.app/api"; // atau sesuaikan dengan Cloud Run kamu
 import { apiBase } from "./config.js";
 
 // Debug: pastikan apiBase tersedia
