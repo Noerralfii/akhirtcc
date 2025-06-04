@@ -49,7 +49,20 @@ export function logout() {
 }
 
 // Update cart count (opsional untuk navigasi)
-export function updateCartCount(count = 0) {
+export async function updateCartCount() {
   const cartCountElements = document.querySelectorAll('#cartCount');
+  let count = 0;
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const res = await fetch(`${API_URL}/cart`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        count = data.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+      }
+    } catch {}
+  }
   cartCountElements.forEach(el => (el.textContent = count));
 }

@@ -52,6 +52,46 @@
         </div>
     </div>
 
-    <script type="module" src="js/auth.js"></script>
+    <script type="module">
+    import { login, register } from './js/auth.js';
+
+    // Tab logic
+    window.openTab = function(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tabC => tabC.classList.remove('active'));
+        document.querySelector(`.tab-btn[onclick="openTab('${tab}')"]`).classList.add('active');
+        document.getElementById(tab).classList.add('active');
+    };
+
+    // Login form
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        try {
+            await login(email, password);
+        } catch (err) {
+            alert(err.message);
+        }
+    });
+
+    // Register form
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('regName').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirmPassword').value;
+        if (password !== confirm) {
+            alert('Konfirmasi password tidak cocok');
+            return;
+        }
+        try {
+            await register(name, email, password);
+        } catch (err) {
+            alert(err.message);
+        }
+    });
+    </script>
 </body>
 </html>

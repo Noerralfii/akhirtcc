@@ -55,6 +55,7 @@
   <script type="module" src="js/config.js"></script>
   <script type="module">
     import { API_URL } from './config.js';
+    import { updateCartCount } from './js/auth.js';
 
     const userNameElement = document.getElementById('userName');
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -95,6 +96,7 @@
     });
 
     fetchProfile();
+    updateCartCount();
   </script>
 </body>
 </html>

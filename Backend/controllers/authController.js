@@ -1,9 +1,19 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { User } from '../models/index.js';
 
 export const register = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const { password, ...rest } = req.body;
+    
+    // Hash password sebelum disimpan
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    const user = await User.create({ 
+      ...rest, 
+      password: hashedPassword 
+    });
+    
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
     res.status(201).json({ token });
   } catch (err) {
@@ -13,12 +23,25 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ where: { email } });
-  if (!user || !(await user.comparePassword(password))) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+  
+  try {
+    const user = await User.findOne({ where: { email } });
+    
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+    res.json({ token });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-  res.json({ token });
 };
 
 export const getProfile = async (req, res) => {

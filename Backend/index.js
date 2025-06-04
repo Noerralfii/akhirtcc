@@ -12,11 +12,11 @@ import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 // CORS Config
 const allowedOrigins = [
-  "https://sembako-frontend-981814770172.asia-southeast2.run.app/",
+  "https://sembako-frontend-981814770172.asia-southeast2.run.app",
   // Tambah domain frontend production jika perlu
 ];
 
@@ -45,9 +45,9 @@ app.get("/health", (req, res) => {
 db.sequelize.sync({ alter: true })
   .then(() => {
     console.log("Database connected and synced");
-    app.listen(process.env.PORT, () => {
-  console.log(`Server berjalan di port ${process.env.PORT}`);
-});
+    app.listen(port, () => {
+      console.log(`Server berjalan di port ${port}`);
+    });
 
   })
   .catch((err) => {

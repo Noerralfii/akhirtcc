@@ -6,7 +6,7 @@
   <title>Keranjang - Toko Sembako Makmur</title>
   <link rel="stylesheet" href="css/style.css" />
   <script type="module" src="js/config.js" ></script>
-<script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/products.js" ></script>
   <script type="module" src="js/cart.js" ></script>
 </head>
@@ -90,5 +90,11 @@
       </div>
     </div>
   </div>
+
+  <script type="module">
+    import { updateCartCount, logout } from './js/auth.js';
+    updateCartCount();
+    document.getElementById('logoutBtn').onclick = logout;
+  </script>
 </body>
 </html>

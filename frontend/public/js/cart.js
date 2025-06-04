@@ -17,12 +17,17 @@ async function fetchCart() {
 function showCartItems(items) {
   const cartContainer = document.getElementById('cartItems');
   const cartTotal = document.getElementById('cartTotal');
+  const subtotalEl = document.getElementById('subtotal');
+  const totalBelanjaEl = document.getElementById('totalBelanja');
   cartContainer.innerHTML = '';
   let total = 0;
 
   if (!items.length) {
     cartContainer.innerHTML = '<p>Keranjang kosong. 😢</p>';
     cartTotal.textContent = 'Rp 0';
+    subtotalEl.textContent = 'Rp 0';
+    totalBelanjaEl.textContent = 'Rp 0';
+    document.getElementById('emptyCartState').style.display = 'block';
     return;
   }
 
@@ -47,6 +52,9 @@ function showCartItems(items) {
   });
 
   cartTotal.textContent = `Rp ${total.toLocaleString()}`;
+  subtotalEl.textContent = `Rp ${total.toLocaleString()}`;
+  totalBelanjaEl.textContent = `Rp ${total.toLocaleString()}`;
+  document.getElementById('emptyCartState').style.display = 'none';
 }
 
 window.removeItem = async function (productId) {

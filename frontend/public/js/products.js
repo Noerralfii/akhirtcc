@@ -12,6 +12,7 @@ async function fetchProducts() {
     allProducts = data;
     displayProducts(allProducts);
     toggleLoading(false);
+    updateCartCount();
   } catch (err) {
     toggleLoading(false);
     console.error('Gagal mengambil produk:', err);

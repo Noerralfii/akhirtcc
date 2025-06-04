@@ -28,7 +28,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     orders.forEach((order, i) => {
-      const itemsHTML = order.items.map(item => `<li>${item.quantity}x produk ID ${item.productId}</li>`).join('');
+      const itemsHTML = order.items.map(item => 
+        `<li>${item.quantity}x ${item.Product?.name || 'produk ID ' + item.productId}</li>`
+      ).join('');
       const orderCard = document.createElement('div');
       orderCard.className = 'order-card';
       orderCard.innerHTML = `

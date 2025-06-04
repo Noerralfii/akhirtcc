@@ -14,3 +14,4 @@ Backend untuk aplikasi e-commerce Toko Sembako Makmur menggunakan Node.js, Expre
 ```bash
 npm install
 npm run dev
+```
